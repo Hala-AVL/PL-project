@@ -136,7 +136,7 @@ class SignupPage extends StatelessWidget {
               child:  Text(AppLocalizations.of(context)!.translate("SU") , style: flexTheme.textTheme?.displayMedium,)
           ),
         )  ,
-        Padding(padding: const EdgeInsets.only(top: 90)  ,
+        Padding(padding: const EdgeInsets.only(top: 50)  ,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

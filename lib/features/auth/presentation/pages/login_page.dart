@@ -98,13 +98,13 @@ class LoginPage extends StatelessWidget {
                     onPressed: (){
                      if(loginformkey.currentState!.validate()){
                        BlocProvider.of<AuthBloc>(context).add(LoginEvent(phoneNumber: phonenumber, password: password)) ;
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> UpdateProfilePage())) ;
+                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const UpdateProfile())) ;
                      }
                     },
                     child:  Text(AppLocalizations.of(context)!.translate("LI") , style: flexTheme.textTheme?.displayMedium,)
                  ),
                ) ,
-               Padding(padding: const EdgeInsets.only(top: 160)  ,
+               Padding(padding: const EdgeInsets.only(top: 130)  ,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

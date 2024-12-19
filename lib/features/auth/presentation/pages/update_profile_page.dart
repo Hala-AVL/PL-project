@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:order_delivery/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:order_delivery/features/auth/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:order_delivery/features/auth/presentation/pages/home_page.dart';
 // import 'package:path/path.dart';
@@ -12,15 +11,23 @@ import 'package:order_delivery/features/auth/presentation/pages/home_page.dart';
 import 'package:order_delivery/main.dart';
 import 'package:order_delivery/'
     'injection_container.dart' as di;
-import 'package:path/path.dart';
 
-import '../../../../core/util/lang/app_localizations.dart';
 
-class UpdateProfilePage extends StatelessWidget {
+class UpdateProfile extends StatefulWidget{
+  const UpdateProfile({super.key});
+
+  @override
+  State<UpdateProfile> createState() {
+     return UpdateProfilePage() ;
+  }
+
+}
+
+class UpdateProfilePage extends State<UpdateProfile> {
 
    late File? image ;
    late String? firstusername , secondusername , location  ;
-   UpdateProfilePage({super.key, this.image, this.firstusername});
+   UpdateProfilePage({ this.image, this.firstusername});
     
   @override
   Widget build(BuildContext context) {
@@ -66,39 +73,6 @@ class UpdateProfilePage extends StatelessWidget {
               },
               child: BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                if(state is UpdatingUserProfileState){
-                  print("inside it ") ;
-                  return ClipOval(
-            child: image == null ?
-            Container(
-              color: Colors.grey,
-              width: 160 ,
-              height: 160,
-              child: IconButton(onPressed: (){
-                showMenu(context: context, position: const RelativeRect.fromLTRB(90, 260, 90 , 0), items: [
-                  PopupMenuItem(child: const ListTile(leading: Icon(Icons.folder , color: Colors.green,),
-                    title: Text("from gallery ") ,
-                  ),
-                    onTap: (){
-                      pickImage(ImageSource.gallery).then((_){
-                        //print("${image?.path }  inside then right now ") ;
-                        BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
-                      } ) ;
-                    },) ,
-                  PopupMenuItem(child: const ListTile(leading: Icon(Icons.camera , color: Colors.green,),
-                    title: Text("from camera ") ,
-                  ) , onTap: (){
-                    pickImage(ImageSource.camera).then((_){
-                     // print("${image?.path }  inside then right now ") ;
-                      BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
-                    } ) ;
-                  },) ,
-                ]) ;
-              }, icon: const Icon(Icons.add , size: 40, color: Colors.greenAccent,)
-              ),
-            ): Image.file(image!)
-                  );
-                }
                 return ClipOval(
                     child: image == null ?
                     Container(
@@ -111,25 +85,22 @@ class UpdateProfilePage extends StatelessWidget {
                   title: Text("from gallery ") ,
                 ),
                   onTap: (){
-                    pickImage(ImageSource.gallery).then((_){
-                      //print("${image?.path }  inside then right now ") ;
-                      BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
-                    } ) ;
+                    pickImage(ImageSource.gallery) ;
                   },) ,
                 PopupMenuItem(child: const ListTile(leading: Icon(Icons.camera , color: Colors.green,),
                   title: Text("from camera ") ,
                 ) , onTap: (){
-                  //pickImage(ImageSource.camera) ;
-                  pickImage(ImageSource.gallery).then((_){
-                   // print("${image?.path }  inside then right now ") ;
-                    BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
-                  } ) ;
-                 // print("${image?.path }   right now ") ;
+                  pickImage(ImageSource.camera) ;
                 },) ,
               ]) ;
             }, icon: const Icon(Icons.add , size: 40, color: Colors.greenAccent,)
             ),
-                    ): Image.file(image!)
+                    ):
+                        SizedBox(
+                          height: 160 ,
+                          width: 160,
+                          child:  Image.file(image!),
+                        )
                 );
 
               },
@@ -151,16 +122,11 @@ class UpdateProfilePage extends StatelessWidget {
                       ),
                         onTap: (){
                           pickImage(ImageSource.gallery) ;
-                          BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
                         },) ,
                       PopupMenuItem(child: const ListTile(leading: Icon(Icons.camera , color: Colors.green,),
                         title: Text("from camera ") ,
                       ) , onTap: (){
-                        pickImage(ImageSource.camera).whenComplete((){
-                           print("$image  inside then right now ") ;
-                          BlocProvider.of<UserBloc>(context).add(UpdatingUserProfileEvent()) ;
-                        } ) ;
-                       // print("${image?.path }   right now after then ") ;
+                        pickImage(ImageSource.camera) ;
                         },) ,
                     ]) ;
                   }, icon: const Icon(Icons.add_a_photo_outlined  , size: 30,color: Colors.black,)),
@@ -279,7 +245,10 @@ class UpdateProfilePage extends StatelessWidget {
   
   Future pickImage(ImageSource source ) async{
     var image = await ImagePicker().pickImage(source: source) ;
-    this.image = File(image!.path) ;
+    if(image == null) return ;
+   setState(() {
+     this.image = File(image.path) ;
+   });
 
    // BlocProvider.of<UserBloc>(context as BuildContext).add(UpdatingUserProfileEvent(image: File(image.path))) ;
   }
