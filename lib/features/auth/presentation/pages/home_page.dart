@@ -130,6 +130,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height ;
+    double width = MediaQuery.of(context).size.width ;
     return Scaffold(
       backgroundColor: flexTheme.colorScheme?.primary,
       appBar: AppBar(
@@ -137,7 +139,125 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      body: Column(
+      body:ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text("  Top Demanded Stores  " , style: flexTheme.textTheme?.bodySmall,),
+          ) ,
+          SizedBox(
+            height: 170,
+            child:  CarouselSlider.builder(itemCount: info.length,
+                itemBuilder:(context , index , realIndex){
+              return Container(
+                width: width*0.68 ,
+                height:  height*0.5 ,
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.circular(20) ,
+                  image: const DecorationImage(
+                      image: AssetImage("assets/splash/Posters/HarryPotter1.jpg" , ) ,
+                    fit: BoxFit.fill
+                  ) ,
+
+                ),
+              ) ;
+                },
+                options: CarouselOptions(
+                  autoPlay: true ,
+                )),
+            
+            
+          ) ,
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text("Top Demanded Products  " , style: flexTheme.textTheme?.bodySmall,),
+          ) ,
+          SizedBox(
+            height: 170,
+            child:  CarouselSlider.builder(itemCount: info.length,
+                itemBuilder:(context , index , realIndex){
+                  return Container(
+                    width: width*0.68 ,
+                    //height:  height/8 ,
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      borderRadius: BorderRadius.circular(20) ,
+                      image: const DecorationImage(
+                          image: AssetImage("assets/splash/Posters/Dragon.jpg" , ) ,
+                          fit: BoxFit.fill
+                      ) ,
+
+                    ),
+                  ) ;
+                },
+                options: CarouselOptions(
+                  autoPlay: true ,
+                )),
+
+          ) ,
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text(" Latest Products   " , style: flexTheme.textTheme?.bodySmall,),
+          ) ,
+          SizedBox(
+            height: 400,
+            child: GridView.builder(
+              //physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2 ,
+                mainAxisSpacing: 10 ,
+                crossAxisSpacing: 15
+              ),
+              itemCount: 10,
+                itemBuilder: (context , index){
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                    height: 100 ,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey
+                    ),
+                    child: Center(
+                        child: Text("$index")),
+                  ),
+                  Positioned(
+                    right: 0,
+                      left: 150,
+                      child: Stack(
+                        children: [
+                          IconButton(onPressed: (){},
+                              icon: const Icon(Icons.favorite_border_outlined ,
+                                size: 30,
+                                color: Colors.black,)
+                          ),
+                         const Positioned(
+                           top : 20,
+                             //left : 20,
+                             right : 0,
+                             child:  Icon(Icons.add , size: 20,
+                             )
+                         )
+                        ],
+                      )
+                  ) ,
+                ],
+              ) ;
+            }),
+          )
+
+        ],
+      )
+
+
+    );
+  }
+}
+/*
+*  Column(
         mainAxisAlignment: MainAxisAlignment.start,
        // physics: const NeverScrollableScrollPhysics(),
         children: [
@@ -168,16 +288,7 @@ class HomePage extends StatelessWidget {
                 ),
           ),
           Text("  Latest Products  " , style: flexTheme.textTheme?.bodySmall,) ,
-          Column(
-            children: [
-    Container(width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/splash/Posters/KungFuPanda4.jpg") ,
-            fit: BoxFit.cover
-          )
-          )) ]
-          )
+         
           // ListView.builder(
           //   itemCount: info.length,
           //     itemBuilder: (context , i){
@@ -187,9 +298,4 @@ class HomePage extends StatelessWidget {
           // }) ,
           //
         ],
-      ),
-
-
-    );
-  }
-}
+      ),*/
