@@ -1,159 +1,210 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//import 'package:order_delivery/features/auth/presentation/pages/login_page.dart';
-import 'package:order_delivery/main.dart';
-//import 'package:order_delivery/injection_container.dart' as di ;
+import 'package:order_delivery/core/util/variables/others.dart';
+import 'package:order_delivery/features/auth/presentation/widgets/costum_loading_widget.dart';
+import 'package:order_delivery/features/auth/presentation/widgets/custom_text_form_field.dart';
+import '../../../../core/util/functions/functions.dart';
 import '../../../../core/util/lang/app_localizations.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
 
-class SignupPage extends StatelessWidget {
-  static late  String phonenumber  , password  , confirmedpassword ;
+//valid num 123-456-7890
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final GlobalKey<FormState> signupFormKey = GlobalKey();
+
+  final TextEditingController phoneNumberTEC = TextEditingController();
+
+  final TextEditingController passwordTEC = TextEditingController();
+
+  final TextEditingController confirmedPasswordTEC = TextEditingController();
+  @override
+  void dispose() {
+    phoneNumberTEC.dispose();
+    passwordTEC.dispose();
+    confirmedPasswordTEC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      appBar: AppBar(
-        //title: const Text('Create your account '  , style: TextStyle(letterSpacing: 2 , fontWeight: FontWeight.w800),),
-        //centerTitle: true ,
-        backgroundColor: Colors.black54,
-        foregroundColor: Colors.white,
-      ),
-      body: Form(
-        key: signupformkey,
-    child: SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-             Padding(
-              padding: const EdgeInsets.only(top: 90),
-              child: Text(AppLocalizations.of(context)!.translate("welcome")  , style: flexTheme.textTheme?.bodyLarge,
-              )
+        backgroundColor: Colors.black87,
+        appBar: AppBar(
+          backgroundColor: Colors.black54,
+          foregroundColor: Colors.white,
+        ),
+        body: _buildSignupBloc());
+  }
+
+  Widget _buildSignupBloc() {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is SignedupAuthState) {
+          // TODO: show singed up message
+          showSnackBar(context, Colors.grey.shade900, "signed up msg".tr(context)) ;
+          Navigator.of(context).pop();
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingAuthState) {
+          //TODO: show appropriate loading widget
+          return const CustomLoadingWidget();
+        } else if (state is FailedAuthState) {
+          //TODO: show error message in an appropriate way
+          showCustomAboutDialog(
+              context, "sign up error", state.failure.failureMessage);
+        }
+        return Form(
+          key: signupFormKey,
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                _buildAppTitle(),
+                ..._buildTextFields(),
+                _buildSubmitButton(),
+                _buildLoginButton()
+              ],
             ),
-            Text(AppLocalizations.of(context)!.translate("create"), style: flexTheme.textTheme?.bodyMedium)
-          ],
-        )  ,
-        Padding(
-          padding: const EdgeInsets.only(top: 100 , left: 13 , right: 13),
-          child: TextFormField(
-            style: flexTheme.textTheme?.bodySmall,
-            validator: (value){
-              if(value!.isEmpty){
-                return AppLocalizations.of(context)!.translate("warning") ;
-              }
-              else if (!numberExp.hasMatch(phonenumber)){
-                return AppLocalizations.of(context)!.translate("warning3") ;
-              }
-            },decoration: InputDecoration(
-              border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)) ,
-              borderSide: BorderSide(color: Colors.white ,style: BorderStyle.solid) ) ,
-              fillColor: Colors.grey.shade900 , filled: true  , focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 3 , color: Colors.white54 , ) ,
-                  borderRadius: BorderRadius.circular(13)) ,
-              label: Text(AppLocalizations.of(context)!.translate("pn")) , labelStyle: flexTheme.textTheme?.labelSmall ,
-              focusColor: Colors.white
-              ,prefixIcon: const Icon(Icons.numbers_outlined , color: Colors.greenAccent, )),cursorColor: Colors.white54,
-            onSaved: (value){
-              phonenumber = value! ;
-            },
-            onChanged: (value){
-              phonenumber = value ;
-            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("msg2".tr(context),
+            style: Theme.of(context).textTheme.displaySmall),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Text(
+            "li".tr(context),
+            style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 18,
+                color: Colors.greenAccent),
           ),
         )
-        ,
-        Padding(
-          padding: const EdgeInsets.only(top: 27 , left: 13 , right: 13 ),
-          child: TextFormField(
-            style: flexTheme.textTheme?.bodySmall,
-            validator: (value){
-              if(value!.isEmpty){
-                return AppLocalizations.of(context)!.translate("warning") ;
-              }
-            },decoration: InputDecoration(border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)) ,
-              borderSide: BorderSide(color: Colors.white ,style: BorderStyle.solid) ) ,
-              fillColor: Colors.grey.shade900 , filled: true  , focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 3 , color: Colors.white54 , ) ,
-                  borderRadius: BorderRadius.circular(13)) ,
-              label: Text(AppLocalizations.of(context)!.translate("pw")) , labelStyle: flexTheme.textTheme?.labelSmall
-              ,prefixIcon: const Icon(Icons.password_outlined , color: Colors.greenAccent, )
-          ),cursorColor: Colors.white54,
-            onSaved: (value){
-              password = value! ;
-            },
-            onChanged: (value){
-              password = value ;
-            },
-          ),
-        ) ,
-        Padding(
-          padding: const EdgeInsets.only(top: 27 , left: 13 , right: 13),
-          child: TextFormField(
-            style: flexTheme.textTheme?.bodySmall,
-            validator: (value){
-              if(value!.isEmpty){
-                return AppLocalizations.of(context)!.translate("warning") ;
-              }
-              else if(password != confirmedpassword){
-              return AppLocalizations.of(context)!.translate("warning2") ;
-              }
-            },decoration: InputDecoration(
-              border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)) ,
-                  borderSide: BorderSide(color: Colors.white ,style: BorderStyle.solid) ) ,
-              fillColor: Colors.grey.shade900 , filled: true  , focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 3 , color: Colors.white54 , ) ,
-              borderRadius: BorderRadius.circular(13)) ,
-              label:  Text(AppLocalizations.of(context)!.translate("cpw")) , labelStyle: flexTheme.textTheme?.labelSmall ,
-              focusColor: Colors.white
-              ,prefixIcon: const Icon(Icons.password_outlined , color: Colors.greenAccent, )),cursorColor: Colors.white54,
-            onSaved: (value){
-              confirmedpassword = value! ;
-            },
-            onChanged: (value){
-              confirmedpassword = value ;
-            },
-          ),
-        ) ,
-        Padding(
-          padding: const EdgeInsets.all(35),
-          child: ElevatedButton(
-              style: const ButtonStyle(backgroundColor:  WidgetStatePropertyAll(Colors.greenAccent)  ,
-                  foregroundColor: WidgetStatePropertyAll(Colors.black) ,
-              elevation: WidgetStatePropertyAll(7) ,
-              shadowColor: WidgetStatePropertyAll(Colors.grey) ,
-                padding: WidgetStatePropertyAll(EdgeInsets.all(15))
-              ),
-              onPressed: (){
-                if(signupformkey.currentState!.validate()){
-                  BlocProvider.of<AuthBloc>(context).add(SignupEvent(phoneNumber: phonenumber, password: password)) ;
-                }
-              },
-              child:  Text(AppLocalizations.of(context)!.translate("SU") , style: flexTheme.textTheme?.displayMedium,)
-          ),
-        )  ,
-        Padding(padding: const EdgeInsets.only(top: 50)  ,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-               Text(AppLocalizations.of(context)!.translate("msg2") ,
-                  style:  flexTheme.textTheme?.displaySmall
-              )  ,
-              InkWell(  onTap: (){
-                Navigator.of(context).pop() ;
-              }, child:  Text(AppLocalizations.of(context)!.translate("li") , style: const TextStyle(fontWeight: FontWeight.w800 , fontSize: 18 , color: Colors.greenAccent ),),
-              )
-            ],
-          ),)
-
       ],
-    ),
-    ),
-    ),
     );
+  }
+
+  Widget _buildSubmitButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 35, right: 35, top: 100, bottom: 20),
+      child: ElevatedButton(
+          style: const ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 45, 133, 90)),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+              elevation: WidgetStatePropertyAll(7),
+              shadowColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 87, 218, 82)),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(15))),
+          onPressed: () {
+            if (signupFormKey.currentState!.validate()) {
+              BlocProvider.of<AuthBloc>(context).add(SignupEvent(
+                  phoneNumber: phoneNumberTEC.text.trim(),
+                  password: passwordTEC.text.trim()));
+            }
+          },
+          child: Text(
+            "SU".tr(context),
+            style: Theme.of(context).textTheme.displayMedium,
+          )),
+    );
+  }
+
+  Widget _buildAppTitle() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(top: 90),
+            child: Text(
+              "welcome".tr(context),
+              style: Theme.of(context).textTheme.bodyLarge,
+            )),
+        Text("create".tr(context),
+            style: Theme.of(context).textTheme.bodyMedium)
+      ],
+    );
+  }
+
+  List<Widget> _buildTextFields() {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(top: 100, left: 13, right: 13),
+        child: CustomTextFormField(
+            textEditingController: phoneNumberTEC,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "warning".tr(context);
+              } else if (!numberExp.hasMatch(phoneNumberTEC.text.trim())) {
+                return "warning3".tr(context);
+              }
+              return null;
+            },
+            hintText: "pn".tr(context),
+            obsecure: false,
+            prefixIcon: const Icon(
+              Icons.numbers_outlined,
+              color: Colors.greenAccent,
+            )),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 27, left: 13, right: 13),
+        child: CustomTextFormField(
+          textEditingController: passwordTEC,
+          obsecure: true,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "warning".tr(context);
+            }
+            return null;
+          },
+          hintText: "pw".tr(context),
+          prefixIcon: const Icon(
+            Icons.password_outlined,
+            color: Colors.greenAccent,
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 27, left: 13, right: 13),
+        child: CustomTextFormField(
+          textEditingController: confirmedPasswordTEC,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "warning".tr(context);
+            } else if (passwordTEC.text.trim() !=
+                confirmedPasswordTEC.text.trim()) {
+              return "warning2".tr(context);
+            }
+            return null;
+          },
+          obsecure: true,
+          hintText: "cpw".tr(context),
+          prefixIcon: const Icon(
+            Icons.password_outlined,
+            color: Colors.greenAccent,
+          ),
+        ),
+      ),
+    ];
   }
 }

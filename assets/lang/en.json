@@ -14,7 +14,7 @@
     "create" : "Create your account : ",
     "msg2" : "if you have an account " ,
     "update profile" : "Update Profile Page ",
-    "profile" : "add profile picture : " ,
+    "profile" : "add profile picture (Optional) : " ,
     "from gallery" : "from gallery",
     "from camera" : "from camera",
     "extra info" : "add extra info about your self : " ,
@@ -22,5 +22,18 @@
     "last name" : "last name " ,
     "location" : "location" ,
     "finish" : "finish" ,
-    "skip" : "Skip"
+    "skip" : "Skip",
+    "syl":"Select Your App Language",
+    "en":"English",
+    "ar":"Arabic" ,
+    "logged in msg" : "Logged in Successfully" ,
+    "signed up msg" : "created account Successfully" ,
+    "sign up error" : "Sign up Error " ,
+    "log in error" : "Log in Error" ,
+    "loading" : "Loading ..." ,
+    "update success" : "Updated Profile Successfully" ,
+    "update pro err" : "Update Profile Error " ,
+    "error msg" : "Something went wrong please try aging  ..." ,
+    "retry" : " Retry Again"
+
 }

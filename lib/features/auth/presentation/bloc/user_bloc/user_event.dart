@@ -6,8 +6,7 @@ sealed class UserEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-class UpdatingUserProfileEvent extends UserEvent{
-}
+
 class UpdateUserProfileEvent extends UserEvent {
   final String firstName, lastName, location, token;
   final File? image;
@@ -23,4 +22,12 @@ class UpdateUserProfileEvent extends UserEvent {
   List<Object> get props => image == null
       ? [firstName, lastName, location, token]
       : [firstName, lastName, location, token, image!];
+}
+
+class ChangeUserLanguageEvent extends UserEvent {
+  final String token, locale;
+
+  const ChangeUserLanguageEvent({required this.token, required this.locale});
+  @override
+  List<Object> get props => [token, locale];
 }

@@ -1,127 +1,194 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:order_delivery/features/auth/presentation/pages/update_profile_page.dart';
+import 'package:order_delivery/core/util/functions/functions.dart';
 import 'package:order_delivery/core/util/lang/app_localizations.dart';
-import '../../domain/enitities/user_entity.dart';
+import 'package:order_delivery/features/auth/presentation/pages/update_profile_page.dart';
+//import 'package:order_delivery/core/util/variables/others.dart';
+import 'package:order_delivery/features/auth/presentation/widgets/costum_loading_widget.dart';
+import 'package:order_delivery/features/auth/presentation/widgets/custom_text_form_field.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
 import 'signup_page.dart';
-import 'package:order_delivery/main.dart';
-class LoginPage extends StatelessWidget {
 
-  static late  String phonenumber  , password ;
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+
+  final TextEditingController phoneNumberTEC = TextEditingController();
+
+  final TextEditingController passwordTEC = TextEditingController();
+
+  @override
+  void dispose() {
+    phoneNumberTEC.dispose();
+    passwordTEC.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      // appBar: AppBar(
-      //   title: const Text('Login Page'),
-      // ),
-      body: Form(
-        key: loginformkey,
-        child: SingleChildScrollView(
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-                   Padding(
-                    padding: const EdgeInsets.only(top: 170),
-                    child: Row(
-                      mainAxisAlignment :  MainAxisAlignment.center ,
-                       children: [
-                      const Icon(Icons.delivery_dining_outlined , size: 90 ,color: Colors.greenAccent,
-                      ) ,
-                      Text("SPEEDY SERVE" ,style: flexTheme.textTheme?.bodyLarge ,)
-                    ],),
-                  )  ,
-              Padding(
-                padding: const EdgeInsets.only(top: 100 , left: 13 , right: 13),
-                child: TextFormField(
-                  controller: controller,
-                  style: flexTheme.textTheme?.displaySmall,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return AppLocalizations.of(context)!.translate("warning") ;
-                    }
-                  },
-                  decoration: InputDecoration(border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)) ,
-                    borderSide: BorderSide(color: Colors.white ,style: BorderStyle.solid) ) ,
-                    fillColor: Colors.grey.shade900 , filled: true  , focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 3 , color: Colors.white54 , ) ,
-                    borderRadius: BorderRadius.circular(13)) ,
-                    label:  Text(AppLocalizations.of(context)!.translate("pn")) , labelStyle: flexTheme.textTheme?.labelSmall
-                    ,prefixIcon: const Icon(Icons.numbers_outlined , color: Colors.greenAccent, )
-                  ),cursorColor: Colors.white54,
-                  onSaved: (value){
-                    phonenumber = value! ;
-                },
-                  onChanged: (value){
-                    phonenumber = value ;
-                  },
-                ),
+      body: _buildLoginBloc(),
+    );
+  }
 
-              )
-          ,
-              Padding(
-                padding: const EdgeInsets.only(top: 27 , left: 13 , right: 13 ),
-                child: TextFormField(
-                  style: flexTheme.textTheme?.displaySmall,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return AppLocalizations.of(context)!.translate("warning") ;
-                    }
-                  },
-                  decoration: InputDecoration(border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)) ,
-                    borderSide: BorderSide(color: Colors.white ,style: BorderStyle.solid) ) ,
-                    fillColor: Colors.grey.shade900 , filled: true  , focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 3 , color: Colors.white54 , ) ,
-                        borderRadius: BorderRadius.circular(13)) ,
-                    label:  Text(AppLocalizations.of(context)!.translate("pw")) , labelStyle:  flexTheme.textTheme?.labelSmall
-                    ,prefixIcon: const Icon(Icons.password_outlined , color: Colors.greenAccent, )),cursorColor: Colors.white54,
-                onSaved: (value){
-                 password = value! ;
-                },
-                  onChanged: (value){
-                    password = value ;
-                  },
-                ),
-              ) ,
-               Padding(
-                 padding: const EdgeInsets.all(35),
-                 child: ElevatedButton(
-                   style: const ButtonStyle(backgroundColor:  WidgetStatePropertyAll(Colors.greenAccent)  ,
-                   foregroundColor: WidgetStatePropertyAll(Colors.black) ,
-                     elevation: WidgetStatePropertyAll(7) ,
-                     shadowColor: WidgetStatePropertyAll(Colors.grey) ,
-                       padding: WidgetStatePropertyAll(EdgeInsets.all(15))),
-
-                    onPressed: (){
-                     if(loginformkey.currentState!.validate()){
-                       BlocProvider.of<AuthBloc>(context).add(LoginEvent(phoneNumber: phonenumber, password: password)) ;
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const UpdateProfile())) ;
-                     }
-                    },
-                    child:  Text(AppLocalizations.of(context)!.translate("LI") , style: flexTheme.textTheme?.displayMedium,)
-                 ),
-               ) ,
-               Padding(padding: const EdgeInsets.only(top: 130)  ,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildLoginBloc() {
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is LoggedinAuthState) {
+          // TODO: show logged in message
+          showSnackBar(context, Colors.grey.shade900, "logged in msg".tr(context)) ;
+        } else if (state is FailedAuthState) {
+          //TODO: use this example to show error message in an appropriate way
+          showCustomAboutDialog(
+              context, "log in error", state.failure.failureMessage);
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingAuthState) {
+          //TODO: show appropriate loading widget
+          return const CustomLoadingWidget();
+        } else {
+          return Form(
+            key: loginFormKey,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
                 children: [
-                   Text(AppLocalizations.of(context)!.translate("msg1") ,
-                      style:  flexTheme.textTheme?.displaySmall
-                  )  ,
-                  InkWell(  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignupPage())) ;
-                  }, child:  Text(AppLocalizations.of(context)!.translate("su") , style: const TextStyle(fontWeight: FontWeight.w800 , fontSize: 18 , color: Colors.greenAccent),),
-                  )
+                  _buildAppTitle(),
+                  ..._buildTextFields(),
+                  _buildSubmitButton(),
+                  _buildSignupButton(),
                 ],
-              ),)
+              ),
+            ),
+          );
+        }
+      },
+    );
+  }
 
-            ],
+  Widget _buildSignupButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("msg1".tr(context),
+            style: Theme.of(context).textTheme.displaySmall),
+        InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => const SignupPage()));
+          },
+          child: Text(
+            "su".tr(context),
+            style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 18,
+                color: Colors.greenAccent),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 35, right: 35, top: 185, bottom: 20),
+      child: ElevatedButton(
+          style: const ButtonStyle(
+              backgroundColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 45, 133, 90)),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+              elevation: WidgetStatePropertyAll(7),
+              shadowColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 87, 218, 82)),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(15))),
+          onPressed: () {
+            if (loginFormKey.currentState!.validate()) {
+              BlocProvider.of<AuthBloc>(context).add(LoginEvent(
+                  phoneNumber: phoneNumberTEC.text.trim(),
+                  password: passwordTEC.text.trim()
+              )
+              );
+             // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UpdateProfilePage())) ;
+            }
+          },
+          child: Text(
+            "LI".tr(context),
+            style: Theme.of(context).textTheme.displayMedium,
+          )),
+    );
+  }
+
+  Widget _buildAppTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 170),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.delivery_dining_outlined,
+            size: 90,
+            color: Colors.greenAccent,
+          ),
+          Text(
+            "SPEEDY SERVE",
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildTextFields() {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(top: 100, left: 13, right: 13),
+        child: CustomTextFormField(
+          textEditingController: phoneNumberTEC,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "warning".tr(context);
+             }
+            // else if (!numberExp.hasMatch(phoneNumberTEC.text)) {
+            //   return "warning3".tr(context);
+            // }
+            return null;
+          },
+          prefixIcon: const Icon(
+            Icons.numbers_outlined,
+            color: Colors.greenAccent,
+          ),
+          hintText: "pn".tr(context),
+          obsecure: false,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 27, left: 13, right: 13),
+        child: CustomTextFormField(
+          textEditingController: passwordTEC,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return "warning".tr(context);
+            }
+            return null;
+          },
+          obsecure: true,
+          hintText: "pw".tr(context),
+          prefixIcon: const Icon(
+            Icons.password_outlined,
+            color: Colors.greenAccent,
           ),
         ),
       ),
-    );
+    ];
   }
 }

@@ -57,7 +57,7 @@ class _AppLocalizationsDelegate
       false;
 }
 
- extension TranslateX on String {
-   String tr(BuildContext context) =>
+extension TranslateX on String {
+  String tr(BuildContext context) =>
       AppLocalizations.of(context)!.translate(this);
 }
