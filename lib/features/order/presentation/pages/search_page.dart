@@ -60,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
                     color: Colors.blue,
                   ),
                   child: Text(
-                    "Users",
+                    "Products",
                   ),
                 ),
                 Tab(
@@ -69,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                     color: Colors.purple,
                   ),
                   child: Text(
-                    "Posts",
+                    "Stores",
                   ),
                 ),
               ]),
@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> {
               }
               return null;
             },
-            prefixIcon: Icon(
+            prefixIcon: const Icon(
               Icons.search,
               color: Colors.green,
               size: 40,
@@ -125,7 +125,7 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
-
+//TODO
   Widget _buildProductsTestWidgets() {
     return ListView.builder(
       itemCount: 100,

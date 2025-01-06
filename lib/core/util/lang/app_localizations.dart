@@ -32,7 +32,7 @@ class AppLocalizations {
         return locale;
       }
     }
-    return supportedLocales.last;
+    return supportedLocales.first;
   }
 }
 

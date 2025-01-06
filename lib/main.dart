@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               di.sl<AuthBloc>()..add(DefineCurrentStateEvent()),
         ),
-        BlocProvider(
+        BlocProvider<UserBloc>(
           create: (context) => di.sl<UserBloc>(),
         ),
       ],

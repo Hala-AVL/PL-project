@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _appPages() {
-    return <Widget>[FeedPage(), SettingsPage()];
+    return <Widget>[const FeedPage(), const SettingsPage()];
   }
 
   Widget _buildBottomNavBar() {

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 final flexTheme = FlexColorScheme(
     brightness: Brightness.dark,
+    fontFamily: "PlayfairDisplay",
     colorScheme:
-        ColorScheme.dark(brightness: Brightness.dark, primary: Colors.black ,surface: Colors.grey.shade800 , secondary: Colors.white),
+        ColorScheme.dark(brightness: Brightness.dark, primary: Colors.black ,surface: Colors.grey.shade800 , secondary: Colors.white , tertiary: Colors.green),
     textTheme: const TextTheme(
       headlineMedium: TextStyle(
           fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white),
@@ -37,4 +38,20 @@ final flexTheme = FlexColorScheme(
           fontWeight: FontWeight.w500,
           fontFamily: "PlayfairDisplay",
           color: Colors.white70),
-    ));
+      titleMedium: TextStyle(fontSize: 25,
+          letterSpacing: 2,
+          fontWeight: FontWeight.w800,
+          fontFamily: "PlayfairDisplay",
+          color: Colors.greenAccent),
+     titleSmall: TextStyle(
+        fontSize: 17,
+        fontWeight: FontWeight.w500,
+        fontFamily: "PlayfairDisplay",
+        color: Colors.greenAccent) ,
+    headlineSmall: TextStyle(
+        fontWeight: FontWeight.w900,
+        fontSize: 16,
+        fontFamily: "PlayfairDisplay",
+        letterSpacing: 2 ,
+         color: Colors.black),)
+    );

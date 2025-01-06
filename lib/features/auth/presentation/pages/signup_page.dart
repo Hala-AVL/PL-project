@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:order_delivery/core/util/variables/others.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/costum_loading_widget.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/custom_text_form_field.dart';
 import '../../../../core/util/functions/functions.dart';
@@ -154,9 +153,10 @@ class _SignupPageState extends State<SignupPage> {
             validator: (value) {
               if (value!.isEmpty) {
                 return "warning".tr(context);
-              } else if (!numberExp.hasMatch(phoneNumberTEC.text.trim())) {
-                return "warning3".tr(context);
-              }
+               }
+              //else if (!numberExp.hasMatch(phoneNumberTEC.text.trim())) {
+              //   return "warning3".tr(context);
+              // }
               return null;
             },
             hintText: "pn".tr(context),

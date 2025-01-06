@@ -31,7 +31,7 @@ class FeedPage extends StatelessWidget {
               right: 5,
               top: 2,
               child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.search,
                     size: 40,
                     color: Colors.amber,

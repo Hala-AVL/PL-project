@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:order_delivery/core/util/functions/functions.dart';
 import 'package:order_delivery/core/util/lang/app_localizations.dart';
-import 'package:order_delivery/features/auth/presentation/pages/update_profile_page.dart';
+//import 'package:order_delivery/features/auth/presentation/pages/update_profile_page.dart';
 //import 'package:order_delivery/core/util/variables/others.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/costum_loading_widget.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/custom_text_form_field.dart';
@@ -113,6 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: WidgetStatePropertyAll(EdgeInsets.all(15))),
           onPressed: () {
             if (loginFormKey.currentState!.validate()) {
+              //showSnackBar(context, Colors.greenAccent, "logged in msg".tr(context)) ;
               BlocProvider.of<AuthBloc>(context).add(LoginEvent(
                   phoneNumber: phoneNumberTEC.text.trim(),
                   password: passwordTEC.text.trim()

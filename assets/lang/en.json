@@ -34,6 +34,22 @@
     "update success" : "Updated Profile Successfully" ,
     "update pro err" : "Update Profile Error " ,
     "error msg" : "Something went wrong please try aging  ..." ,
-    "retry" : " Retry Again"
-
+    "retry" : " Retry Again" ,
+    "ok" : "OK" ,
+    "detailed store err" : "Get Detailed store Error" ,
+    "store details" : "Store's Details" ,
+    "store's product" : "Store's Products" ,
+    "detailed product err" : "Get Detailed Product Error" ,
+    "product details" : "Product Details" ,
+    "Order" : "Order" ,
+    "order" : "order" ,
+    "cancel" : "cancel" ,
+    "Add to cart" : "Add to Cart" ,
+    "add to cart" : "add" ,
+    "done order" : "Your Order is Added Successfully " ,
+    "done add to fav" : "Product added to Favourite successfully" ,
+    "done add to cart" : "Product added to Cart successfully" ,
+    "order err" : "Failed Order" ,
+    "add to fav err" : "Failed Add to Favourite " ,
+    "add to cart err" : " Failed add to Cart "
 }
