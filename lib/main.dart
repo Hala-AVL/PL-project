@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             if (state.user.firstName == null || state.user.firstName == '') {
               homePage = const UpdateProfilePage();
             } else {
-              homePage = const HomePage();
+              homePage =  HomePage(user: state.user,);
             }
             appLocal = state.user.locale;
           }

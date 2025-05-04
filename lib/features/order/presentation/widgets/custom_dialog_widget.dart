@@ -1,10 +1,10 @@
-
+import 'package:order_delivery/features/auth/presentation/pages/update_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:order_delivery/core/util/lang/app_localizations.dart';
 import 'package:order_delivery/features/auth/domain/enitities/user_entity.dart';
 import 'package:order_delivery/features/order/domain/enitities/product_entity.dart';
-
+import '../../../../core/util/functions/functions.dart' as  fun;
 import '../bloc/product_bloc/product_bloc.dart';
 class CustomButtonWidget extends StatefulWidget{
   final ProductEntity product ;
@@ -40,7 +40,13 @@ class _CustomButton extends State<CustomButtonWidget>{
              padding: const WidgetStatePropertyAll(EdgeInsets.all(15))
          ),
          onPressed: () {
-           showCustomAboutDialog(context, title, widget.user.token, widget.product.productId , product.quantity  ) ;
+          if(widget.user.firstName == null){
+            fun.showCustomAboutDialog(context , "war" , 'you cannot do this')  ;
+           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UpdateProfilePage())) ;
+          }
+          else {
+            showCustomAboutDialog(context, title, widget.user.token, widget.product.productId , product.quantity  ) ;
+          }
          },
          child: Text(
            title.tr(context),

@@ -14,15 +14,15 @@ class CustomLoadingWidget extends StatefulWidget{
 class _LoadingWidget extends  State<CustomLoadingWidget>{
   @override
   Widget build(BuildContext context) {
-    // double height = const MediaQueryData().size.height ;
-    // double width = const MediaQueryData().size.height ;
+    double height = MediaQuery.of(context).size.height ;
+   // double width = MediaQuery.of(context).size.width ;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Center(
         child: Column(
           children: [
-             const Padding(padding: EdgeInsets.only(top: 400 , bottom: 20),
-            child: CircularProgressIndicator(
+            Padding(padding: EdgeInsets.only(top: height*0.5 , bottom: 20),
+            child: const CircularProgressIndicator(
               color: Colors.greenAccent,
               ),
             ) ,

@@ -51,5 +51,12 @@
     "done add to cart" : "تم إضافة المنتج الى السلة بنجاح" ,
     "order err" : " فشلت إضافة الطلب" ,
     "add to fav err" : " فشلت الإضافة الى المفضلة" ,
-    "add to cart err" : " فشلت الإضافة الى السلة"
+    "add to cart err" : " فشلت الإضافة الى السلة" ,
+    "war" : "تنبيه !" ,
+    "you cannot do this" : "لا تستطيع القيام بهذه العملية قبل اكمال معلومات ملفك الشخصي " ,
+    "products" : "منتجات" ,
+    "stores" : "متاجر" ,
+    "failed product search" : "خطأ تحميل نتائج البحث " ,
+    "failed store search" : "خطأ تحميل نتائج البحث " ,
+    "could not refresh feed" : "لا يمكن تحديث النتائج "
 }

@@ -23,14 +23,6 @@ class GetTopDemandProductsEvent extends ProductEvent {
   List<Object> get props => [token];
 }
 
-class GetRandomProductsEvent extends ProductEvent {
-  final int pageNum;
-  final String token;
-  const GetRandomProductsEvent({required this.pageNum, required this.token});
-  @override
-  List<Object> get props => [pageNum, token];
-}
-
 class SearchProductsEvent extends ProductEvent {
   final String token, query;
   final int pageNum;

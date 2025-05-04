@@ -32,7 +32,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
     return Stack(
       children: [
         Image.asset(
-          'assets/splash/Posters/splash.jpg',
+          'assets/splash/splash.jpg',
           fit: BoxFit.cover,
           height: height,
           width: width,

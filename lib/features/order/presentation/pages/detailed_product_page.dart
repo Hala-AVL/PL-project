@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../widgets/custom_dialog_widget.dart';
 import 'package:order_delivery/core/util/lang/app_localizations.dart';
 import 'package:order_delivery/features/auth/domain/enitities/user_entity.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/custom_error_widget.dart';
@@ -11,7 +12,7 @@ import 'package:order_delivery/features/order/presentation/bloc/product_bloc/pro
 import 'package:order_delivery/injection_container.dart' as di ;
 
 import '../../../../core/util/functions/functions.dart';
-import '../widgets/custom_dialog_widget.dart';
+
 
 class DetailedProductPage extends StatefulWidget{
   final ProductEntity product ;
@@ -41,17 +42,26 @@ class _DetailedProduct extends State<DetailedProductPage>{
                   if(state is DoneOrderProductState){
                    showSnackBar(context, Colors.green.shade600, "done order") ;
                   }
-                  if(state is FailedOrderProductState){
+                 else if(state is LoadingOrderProductState){
+                    showToastMsgForProcess(context, "adding") ;
+                  }
+                 else if(state is FailedOrderProductState){
                     showToastMsg(context, "order err") ;
                   }
                   if(state is DoneAddProductToCartState){
                     showSnackBar(context, Colors.green.shade600, "done add to cart") ;
                   }
-                  if(state is FailedAddProductToCartState){
+                  else if(state is LoadingAddProductToCartState){
+                    showToastMsgForProcess(context, "adding") ;
+                  }
+                 else if(state is FailedAddProductToCartState){
                    showToastMsg(context, "add to cart err") ;
                   }
                   if(state is DoneAddProductToFavState){
                     showSnackBar(context, Colors.green.shade600, "done add to fav") ;
+                  }
+                  else if(state is LoadingAddProductToFavState){
+                    showToastMsgForProcess(context, "adding") ;
                   }
                   if(state is FailedAddProductToFavState){
                     showToastMsg(context, "add to fav err") ;
@@ -218,7 +228,14 @@ class _DetailedProduct extends State<DetailedProductPage>{
     return IconButton(onPressed: (){
       context.read<ProductBloc>().add(AddProductToFavEvent(token: token, productId: productID)) ;
     },
-        icon:  Icon(Icons.favorite_border_outlined , color: Colors.greenAccent.shade700, size:  35,)
+        icon:  BlocBuilder<ProductBloc, ProductState>(
+  builder: (context, state) {
+    if(state is DoneAddProductToFavState){
+      return Icon(Icons.favorite , color: Colors.greenAccent.shade700, size:  35,);
+    }
+    return Icon(Icons.favorite_border_outlined , color: Colors.greenAccent.shade700, size:  35,);
+  },
+)
     ) ;
   }
   

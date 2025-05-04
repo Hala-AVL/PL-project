@@ -51,5 +51,15 @@
     "done add to cart" : "Product added to Cart successfully" ,
     "order err" : "Failed Order" ,
     "add to fav err" : "Failed Add to Favourite " ,
-    "add to cart err" : " Failed add to Cart "
+    "add to cart err" : " Failed add to Cart " ,
+    "war" : "Warning !" ,
+    "you cannot do this" : "You Can not do this operation before complete your profile info" ,
+    "adding" : "Adding ..." ,
+    "products" : "Products" ,
+    "stores" : "Stores" ,
+    "enter your search query" : "Enter your Search Query" ,
+    "please enter your query to search" : "please enter your query to search",
+    "failed product search" : "Failed Products Search" ,
+    "failed store search" : "Failed Stores Search" ,
+    "could not refresh feed" : "could not refresh feed"
 }

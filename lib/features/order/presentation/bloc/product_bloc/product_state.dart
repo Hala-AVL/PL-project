@@ -14,8 +14,6 @@ final class LoadingGetLatestProductsState extends ProductState {}
 
 final class LoadingGetTopDemandProductsState extends ProductState {}
 
-final class LoadingGetRandomProductsState extends ProductState {}
-
 final class LoadingSearchProductsState extends ProductState {}
 
 final class LoadingGetDetailedProductState extends ProductState {}
@@ -40,15 +38,6 @@ final class FailedGetTopDemandProductsState extends ProductState {
   final AppFailure failure;
 
   const FailedGetTopDemandProductsState({required this.failure});
-
-  @override
-  List<Object> get props => [failure];
-}
-
-final class FailedGetRandomProductsState extends ProductState {
-  final AppFailure failure;
-
-  const FailedGetRandomProductsState({required this.failure});
 
   @override
   List<Object> get props => [failure];
@@ -112,14 +101,6 @@ final class LoadedTopDemandProductsState extends ProductState {
   final List<ProductEntity> products;
 
   const LoadedTopDemandProductsState({required this.products});
-  @override
-  List<Object> get props => [products];
-}
-
-final class LoadedRandomProductsState extends ProductState {
-  final List<ProductEntity> products;
-
-  const LoadedRandomProductsState({required this.products});
   @override
   List<Object> get props => [products];
 }

@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: WidgetStatePropertyAll(EdgeInsets.all(15))),
           onPressed: () {
             if (loginFormKey.currentState!.validate()) {
-              //showSnackBar(context, Colors.greenAccent, "logged in msg".tr(context)) ;
+
               BlocProvider.of<AuthBloc>(context).add(LoginEvent(
                   phoneNumber: phoneNumberTEC.text.trim(),
                   password: passwordTEC.text.trim()

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:order_delivery/core/util/functions/functions.dart';
 import 'package:order_delivery/core/util/lang/app_localizations.dart';
+import 'package:order_delivery/features/auth/domain/enitities/user_entity.dart';
 import 'package:order_delivery/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:order_delivery/features/auth/presentation/bloc/user_bloc/user_bloc.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/costum_loading_widget.dart';
@@ -13,6 +14,10 @@ import 'package:order_delivery/features/auth/presentation/widgets/custom_error_w
 import 'package:order_delivery/features/order/presentation/pages/home_page.dart';
 import 'package:order_delivery/features/auth/presentation/widgets/custom_text_form_field.dart';
 
+
+void main(){
+  runApp(const UpdateProfilePage()) ;
+}
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -45,7 +50,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 //TODO: show appropriate done message
                 showSnackBar(context, Colors.grey.shade900, "update success") ;
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                    MaterialPageRoute(builder: (context) => HomePage(user: authState.user)));
               }
             },
             builder: (context, state) {
@@ -56,7 +61,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 //TODO: show error message in an appropriate way
                  showCustomAboutDialog(context, "update pro err",state.failure.failureMessage );
               }
-              return _buildUpdateProfilePage(authState.user.token);
+              return _buildUpdateProfilePage(authState.user);
             },
           );
         }
@@ -66,7 +71,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Widget _buildUpdateProfilePage(String userToken) {
+  Widget _buildUpdateProfilePage(UserEntity user) {
     final double height = MediaQuery.of(context).size.height;
 
     return SingleChildScrollView(
@@ -78,8 +83,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildFirstSection(),
-              _buildFinishButton(userToken),
+              _buildFirstSection(user),
+              _buildFinishButton(user.token),
             ],
           ),
         ),
@@ -87,14 +92,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Widget _buildFirstSection() {
+  Widget _buildFirstSection(UserEntity user) {
     return Column(
       children: [
         _buildTitle1(),
         _buildAddPicture(),
         _buildTitle2(),
         ..._buildTextFields(),
-        _buildSkipButton(),
+        _buildSkipButton(user),
       ],
     );
   }
@@ -136,7 +141,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  Widget _buildSkipButton() {
+  Widget _buildSkipButton(UserEntity user) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, right: 10),
       child: Row(
@@ -149,7 +154,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                    MaterialPageRoute(builder: (context) =>  HomePage(user : user)));
               },
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

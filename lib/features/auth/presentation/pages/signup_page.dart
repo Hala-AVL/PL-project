@@ -46,8 +46,8 @@ class _SignupPageState extends State<SignupPage> {
       listener: (context, state) {
         if (state is SignedupAuthState) {
           // TODO: show singed up message
-          showSnackBar(context, Colors.grey.shade900, "signed up msg".tr(context)) ;
-          Navigator.of(context).pop();
+         showSnackBar(context, Colors.grey.shade900, "signed up msg".tr(context)) ;
+         // Navigator.of(context).pop();
         }
       },
       builder: (context, state) {

@@ -5,7 +5,10 @@ final flexTheme = FlexColorScheme(
     brightness: Brightness.dark,
     fontFamily: "PlayfairDisplay",
     colorScheme:
-        ColorScheme.dark(brightness: Brightness.dark, primary: Colors.black ,surface: Colors.grey.shade800 , secondary: Colors.white , tertiary: Colors.green),
+        ColorScheme.dark(brightness: Brightness.dark, primary: Colors.black ,
+            surface: Colors.grey.shade800 , secondary: Colors.white
+            , tertiary: Colors.green  ,onTertiary: Colors.green.shade600 ,
+             ),
     textTheme: const TextTheme(
       headlineMedium: TextStyle(
           fontWeight: FontWeight.w500, fontSize: 18, color: Colors.white),
@@ -47,7 +50,7 @@ final flexTheme = FlexColorScheme(
         fontSize: 17,
         fontWeight: FontWeight.w500,
         fontFamily: "PlayfairDisplay",
-        color: Colors.greenAccent) ,
+        color: Colors.green) ,
     headlineSmall: TextStyle(
         fontWeight: FontWeight.w900,
         fontSize: 16,

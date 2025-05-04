@@ -98,14 +98,14 @@ class _SettingsPageState extends State<SettingsPage> {
           "Missed Data",
           style: Theme.of(context).textTheme.bodyLarge,
         ),
-        leading: Icon(
+        leading: const Icon(
           Icons.error,
           color: Colors.red,
           size: 40,
         ),
         onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const UpdateProfilePage())),
-        subtitle: Text("click here to set up profile",
+        subtitle: const Text("click here to set up profile",
             style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 18,
@@ -124,7 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context, state) {
         if (state is ChangingUserLanguageState) {
           // TODO: show an appropriate loading widget
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: Colors.greenAccent,
             ),
@@ -134,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
           return Center(
             child: Text(
               state.failure.failureMessage,
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
           );
         }
@@ -156,7 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildChangeLangBtn(String token, String userLocal) {
     return MaterialButton(
         color: selectedLocal == userLocal ? Colors.black : Colors.blue,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
         onPressed: (selectedLocal != userLocal)
             ? () {
@@ -203,7 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: MaterialButton(
                 height: 50,
                 color: Colors.green,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 onPressed: () {
                   BlocProvider.of<AuthBloc>(context)

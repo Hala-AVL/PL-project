@@ -49,12 +49,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                 emit(FailedGetTopDemandProductsState(failure: failure)),
             (products) =>
                 emit(LoadedTopDemandProductsState(products: products)));
-      } else if (event is GetRandomProductsEvent) {
-        emit(LoadingGetRandomProductsState());
-        final either = await getRandomProducts(event.token, event.pageNum);
-        either.fold(
-            (failure) => emit(FailedGetRandomProductsState(failure: failure)),
-            (products) => emit(LoadedRandomProductsState(products: products)));
       } else if (event is SearchProductsEvent) {
         emit(LoadingSearchProductsState());
         final either =
